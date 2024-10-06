@@ -49,7 +49,7 @@ interface TagbarItem {
 }
 
 
-const { saveTag, removeTag,removeTagOther,removeTagAll } = useTagbarStore()
+const { removeTag,removeTagOther,removeTagAll } = useTagbarStore()
 
 const { tags } = storeToRefs(useTagbarStore())
 
@@ -72,9 +72,6 @@ const clickHandle = (item: TagbarItem) => {
     
 }
 
-window.addEventListener('unload', () => {
-    saveTag()
-})
 </script>
 
 <style lang="less" scoped>

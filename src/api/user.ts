@@ -1,15 +1,12 @@
-import { post,get } from '@/composables/useRequest'
+import request from '@/composables/useRequest'
 
 /**
    * 用户登录
    * @param {object} params
    * @returns
    */
-export const login = async (params = {}) => {
-    return await post({
-      url: 'system/login',
-      data: params
-    })
+export const login = (params = {}) => {
+    return request.post('system/login', params)
 }
 
 /**
@@ -18,10 +15,7 @@ export const login = async (params = {}) => {
  * @returns
  */
 export const logout = (params = {}) => {
-    return post({
-        url: 'system/logout',
-        data: params
-    })
+    return request.post('system/logout', params)
 }
 
 /**
@@ -29,9 +23,6 @@ export const logout = (params = {}) => {
  * @param {object} params
  * @returns
  */
-export const getInfo = (params = {}) => {
-    return get({
-        url: 'system/getInfo',
-        data: params
-    })
+export const getUserInfo = (params = {}) => {
+    return request.get('system/getInfo', params)
 }

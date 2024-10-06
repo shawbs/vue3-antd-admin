@@ -32,21 +32,25 @@ export const useTagbarStore = defineStore('userStore', {
         if(this.tags.some(item=>item.key === data.key)) return
         console.log('add tag', data)
         this.tags.push(data)
+        this.saveTag()
     },
 
     removeTag(key:string){
         console.log('remove tag', key)
         this.tags = this.tags.filter((item)=>item.key !== key)
+        this.saveTag()
     },
 
     removeTagOther(key:string){
         this.tags = this.tags.filter((item)=>item.key === key || item.affix)
+        this.saveTag()
     },
 
     removeTagAll(){
         this.tags = [
             ...defaultTag
         ]
+        this.saveTag()
     },
 
     saveTag(){

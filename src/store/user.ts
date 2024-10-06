@@ -1,72 +1,86 @@
 import { defineStore } from 'pinia'
-import { getUserInfo } from '@/api/user'
+import { login, logout, getUserInfo } from '@/api/user'
 import { useCookie } from '@/utils/cookie'
-import useWS from '@/composables/useWs'
-
+import Wsocket from '@/composables/useWs'
+import { useTagbarStore } from './tagbar';
 export interface userStoreState {
-  userInfo: UserInfo
+  userInfo: UserInfo | undefined
   token?: string
+  ws: any
 }
+
+const defaultUserInfo = localStorage.getItem('userInfo') ? JSON.parse(localStorage.getItem('userInfo') as string) : null
 
 export const useUserStore = defineStore('userStore', {
   state: (): userStoreState => ({
-    token: undefined,
+    token: useCookie.get('token') || undefined,
+
+    ws: null,
 
     // 用户信息
-    userInfo: {
-      box_pwd: null,
-      box_status: null,
-      email: null,
-      google_auth_status: null,
-      id: null,
-      level: null,
-      mobile: null,
-      money: '',
-      portrait: '',
-      qq: '',
-      skype: null,
-      strong_box_amount: '',
-      strong_box_status: null,
-      telegram: '',
-      user_group_id: null,
-      user_nick: '',
-      username: '',
-      uuid: null,
-      weixin: null,
-      whatsapp: '',
-      withdraw_pwd_status: null,
-      password_status: null
-    },
+    userInfo: defaultUserInfo,
 
-    
   }),
   getters: {
 
     getToken: () => {
-      const cookieToken = useCookie('token')
-      return cookieToken.value
+      const cookieToken = useCookie.get('token')
+      return cookieToken
     },
 
     // 获取用户信息
     getUserInfo: (state) => state.userInfo,
   },
   actions: {
+    setUserInfo(data: UserInfo) {
+      this.userInfo = data
+      localStorage.setItem('userInfo', JSON.stringify(data))
+    },
 
-    async updateUserInfo() {
-      const res = await getUserInfo()
-      this.userInfo = res
+    async login(data:any) {
+      const res = await login(data)
+      this.setUserInfo(res?.data as UserInfo)
       console.log('userInfo===>',res)
     },
 
-    
-    setToken(token?: string) {
-      this.token = token
-      const cookieToken = useCookie('token',{ maxAge: 60 * 60 * 24 * 7 })
-      cookieToken.value = token
-      const { init } = useWS()
-      init(token)
+    async updateUserInfo() {
+      const res = await getUserInfo()
+      this.setUserInfo(res?.data as UserInfo)
+      console.log('userInfo===>',res)
     },
-    
+
+    setToken(token?: string) {
+      useCookie.set('token',token as string)
+      this.ws = new Wsocket(
+        import.meta.env.VITE_APP_WS_URL +
+          "?token=" +
+          token,
+        {
+          onOpen: () => {
+            console.log("已成功连接到消息服务器...", _);
+          },
+          onError: () => {
+            console.log("未成功连接到消息服务器...");
+          },
+          onClose: () => {
+            console.log("与消息服务器断开...");
+          },
+        })
+    },
+
+    removeToken() {
+      this.token = undefined
+      useCookie.remove('token')
+      this.ws && this.ws.close()
+      useTagbarStore().removeTagAll()
+    },
+
+    async logout(data:any) {
+      const res = await logout(data)
+      this.userInfo = undefined
+      this.removeToken()
+      console.log('userInfo===>',res)
+    },
   },
 })
 

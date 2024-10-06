@@ -1,5 +1,5 @@
 // src/api/api.ts
-
+import { message } from 'ant-design-vue';
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 
 // 创建 Axios 实例
@@ -12,6 +12,7 @@ const api = axios.create({
 const handleError = (error: any) => {
     // 这里可以根据实际情况自定义错误处理
     if (axios.isAxiosError(error)) {
+        message.error('网络异常，请稍后再试');
         console.error('Axios Error:', error.response?.data || error.message);
     } else {
         console.error('Unknown Error:', error);
@@ -27,6 +28,12 @@ interface RequestParams<T> {
     config?: AxiosRequestConfig;
 }
 
+interface RequestResponse<T> {
+    data: T;
+    code: number;
+    message: string;
+}
+
 const request = async <T>(method: 'get' | 'post' | 'put' | 'delete', params: RequestParams<T>) => {
     const { url, data, params: queryParams, config } = params;
 
@@ -38,16 +45,16 @@ const request = async <T>(method: 'get' | 'post' | 'put' | 'delete', params: Req
         });
         return response.data;
     } catch (error) {
-        handleError(error);
+        return handleError(error);
     }
 };
 
 const get = <T>(url: string, params?: Record<string, any>, config?: AxiosRequestConfig) => {
-    return request<T>('get', { url, params, config });
+    return request<RequestResponse<T>>('get', { url, params, config });
 };
 
 const post = <T>(url: string, data?: any, config?: AxiosRequestConfig) => {
-    return request<T>('post', { url, data, config });
+    return request<RequestResponse<T>>('post', { url, data, config });
 };
 
 const put = <T>(url: string, data?: any, config?: AxiosRequestConfig) => {

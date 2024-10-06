@@ -14,7 +14,7 @@ export const useAppStore = defineStore('counter', {
     setting: <ISetting>{
       locale:'zh',  //语言文件名 zh, en
       theme: 'light', //theme.css的文件名
-      colorPrimary: '#2c315f'
+      colorPrimary: '#4e54c8'
     },
     locales: [
       {
