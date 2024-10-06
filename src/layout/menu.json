@@ -1,0 +1,820 @@
+[{
+    "id": 1000,
+    "parent_id": 4500,
+    "name": "permission",
+    "component": "",
+    "path": "\/permission",
+    "redirect": null,
+    "meta": {
+        "type": "M",
+        "icon": "ma-icon-permission",
+        "title": "权限",
+        "hidden": false,
+        "hiddenBreadcrumb": false
+    },
+    "children": [
+        {
+            "id": 1100,
+            "parent_id": 1000,
+            "name": "system:user",
+            "component": "system\/user\/index",
+            "path": "\/user",
+            "redirect": null,
+            "meta": {
+                "type": "M",
+                "icon": "ma-icon-user",
+                "title": "用户管理",
+                "hidden": false,
+                "hiddenBreadcrumb": false
+            },
+            "children": [
+                {
+                    "id": 1101,
+                    "parent_id": 1100,
+                    "name": "system:user:index",
+                    "component": null,
+                    "path": "\/",
+                    "redirect": null,
+                    "meta": {
+                        "type": "B",
+                        "icon": null,
+                        "title": "用户列表",
+                        "hidden": true,
+                        "hiddenBreadcrumb": false
+                    }
+                },
+                {
+                    "id": 1102,
+                    "parent_id": 1100,
+                    "name": "system:user:recycle",
+                    "component": null,
+                    "path": "\/",
+                    "redirect": null,
+                    "meta": {
+                        "type": "B",
+                        "icon": null,
+                        "title": "用户回收站列表",
+                        "hidden": true,
+                        "hiddenBreadcrumb": false
+                    }
+                },
+                {
+                    "id": 1103,
+                    "parent_id": 1100,
+                    "name": "system:user:save",
+                    "component": null,
+                    "path": "\/",
+                    "redirect": null,
+                    "meta": {
+                        "type": "B",
+                        "icon": null,
+                        "title": "用户保存",
+                        "hidden": true,
+                        "hiddenBreadcrumb": false
+                    }
+                },
+                {
+                    "id": 1104,
+                    "parent_id": 1100,
+                    "name": "system:user:update",
+                    "component": null,
+                    "path": "\/",
+                    "redirect": null,
+                    "meta": {
+                        "type": "B",
+                        "icon": null,
+                        "title": "用户更新",
+                        "hidden": true,
+                        "hiddenBreadcrumb": false
+                    }
+                },
+                {
+                    "id": 1105,
+                    "parent_id": 1100,
+                    "name": "system:user:delete",
+                    "component": null,
+                    "path": "\/",
+                    "redirect": null,
+                    "meta": {
+                        "type": "B",
+                        "icon": null,
+                        "title": "用户删除",
+                        "hidden": true,
+                        "hiddenBreadcrumb": false
+                    }
+                },
+                {
+                    "id": 1106,
+                    "parent_id": 1100,
+                    "name": "system:user:read",
+                    "component": null,
+                    "path": "\/",
+                    "redirect": null,
+                    "meta": {
+                        "type": "B",
+                        "icon": null,
+                        "title": "用户读取",
+                        "hidden": true,
+                        "hiddenBreadcrumb": false
+                    }
+                },
+                {
+                    "id": 1107,
+                    "parent_id": 1100,
+                    "name": "system:user:recovery",
+                    "component": null,
+                    "path": "\/",
+                    "redirect": null,
+                    "meta": {
+                        "type": "B",
+                        "icon": null,
+                        "title": "用户恢复",
+                        "hidden": true,
+                        "hiddenBreadcrumb": false
+                    }
+                },
+                {
+                    "id": 1108,
+                    "parent_id": 1100,
+                    "name": "system:user:realDelete",
+                    "component": null,
+                    "path": "\/",
+                    "redirect": null,
+                    "meta": {
+                        "type": "B",
+                        "icon": null,
+                        "title": "用户真实删除",
+                        "hidden": true,
+                        "hiddenBreadcrumb": false
+                    }
+                },
+                {
+                    "id": 1109,
+                    "parent_id": 1100,
+                    "name": "system:user:import",
+                    "component": null,
+                    "path": "\/",
+                    "redirect": null,
+                    "meta": {
+                        "type": "B",
+                        "icon": null,
+                        "title": "用户导入",
+                        "hidden": true,
+                        "hiddenBreadcrumb": false
+                    }
+                },
+                {
+                    "id": 1110,
+                    "parent_id": 1100,
+                    "name": "admin:export:applyExport",
+                    "component": null,
+                    "path": "\/",
+                    "redirect": null,
+                    "meta": {
+                        "type": "B",
+                        "icon": null,
+                        "title": "用户管理申请导出",
+                        "hidden": true,
+                        "hiddenBreadcrumb": false
+                    }
+                },
+                {
+                    "id": 1111,
+                    "parent_id": 1100,
+                    "name": "system:user:changeStatus",
+                    "component": "",
+                    "path": "\/",
+                    "redirect": null,
+                    "meta": {
+                        "type": "B",
+                        "icon": "",
+                        "title": "用户状态改变",
+                        "hidden": true,
+                        "hiddenBreadcrumb": false
+                    }
+                },
+                {
+                    "id": 1112,
+                    "parent_id": 1100,
+                    "name": "system:user:initUserPassword",
+                    "component": "",
+                    "path": "\/",
+                    "redirect": null,
+                    "meta": {
+                        "type": "B",
+                        "icon": "",
+                        "title": "用户初始化密码",
+                        "hidden": true,
+                        "hiddenBreadcrumb": false
+                    }
+                },
+                {
+                    "id": 1113,
+                    "parent_id": 1100,
+                    "name": "system:user:cache",
+                    "component": "",
+                    "path": "\/",
+                    "redirect": null,
+                    "meta": {
+                        "type": "B",
+                        "icon": "",
+                        "title": "更新用户缓存",
+                        "hidden": true,
+                        "hiddenBreadcrumb": false
+                    }
+                },
+                {
+                    "id": 1114,
+                    "parent_id": 1100,
+                    "name": "system:user:homePage",
+                    "component": "",
+                    "path": "\/",
+                    "redirect": null,
+                    "meta": {
+                        "type": "B",
+                        "icon": "",
+                        "title": "设置用户首页",
+                        "hidden": true,
+                        "hiddenBreadcrumb": false
+                    }
+                }
+            ]
+        },
+        {
+            "id": 1400,
+            "parent_id": 1000,
+            "name": "system:role",
+            "component": "system\/role\/index",
+            "path": "\/role",
+            "redirect": null,
+            "meta": {
+                "type": "M",
+                "icon": "ma-icon-role",
+                "title": "角色管理",
+                "hidden": false,
+                "hiddenBreadcrumb": false
+            },
+            "children": [
+                {
+                    "id": 1401,
+                    "parent_id": 1400,
+                    "name": "system:role:index",
+                    "component": null,
+                    "path": "\/",
+                    "redirect": null,
+                    "meta": {
+                        "type": "B",
+                        "icon": null,
+                        "title": "角色列表",
+                        "hidden": true,
+                        "hiddenBreadcrumb": false
+                    }
+                },
+                {
+                    "id": 1402,
+                    "parent_id": 1400,
+                    "name": "system:role:recycle",
+                    "component": null,
+                    "path": "\/",
+                    "redirect": null,
+                    "meta": {
+                        "type": "B",
+                        "icon": null,
+                        "title": "角色回收站",
+                        "hidden": true,
+                        "hiddenBreadcrumb": false
+                    }
+                },
+                {
+                    "id": 1403,
+                    "parent_id": 1400,
+                    "name": "system:role:save",
+                    "component": null,
+                    "path": "\/",
+                    "redirect": null,
+                    "meta": {
+                        "type": "B",
+                        "icon": null,
+                        "title": "角色保存",
+                        "hidden": true,
+                        "hiddenBreadcrumb": false
+                    }
+                },
+                {
+                    "id": 1404,
+                    "parent_id": 1400,
+                    "name": "system:role:update",
+                    "component": null,
+                    "path": "\/",
+                    "redirect": null,
+                    "meta": {
+                        "type": "B",
+                        "icon": null,
+                        "title": "角色更新",
+                        "hidden": true,
+                        "hiddenBreadcrumb": false
+                    }
+                },
+                {
+                    "id": 1405,
+                    "parent_id": 1400,
+                    "name": "system:role:delete",
+                    "component": null,
+                    "path": "\/",
+                    "redirect": null,
+                    "meta": {
+                        "type": "B",
+                        "icon": null,
+                        "title": "角色删除",
+                        "hidden": true,
+                        "hiddenBreadcrumb": false
+                    }
+                },
+                {
+                    "id": 1406,
+                    "parent_id": 1400,
+                    "name": "system:role:read",
+                    "component": null,
+                    "path": "\/",
+                    "redirect": null,
+                    "meta": {
+                        "type": "B",
+                        "icon": null,
+                        "title": "角色读取",
+                        "hidden": true,
+                        "hiddenBreadcrumb": false
+                    }
+                },
+                {
+                    "id": 1407,
+                    "parent_id": 1400,
+                    "name": "system:role:recovery",
+                    "component": null,
+                    "path": "\/",
+                    "redirect": null,
+                    "meta": {
+                        "type": "B",
+                        "icon": null,
+                        "title": "角色恢复",
+                        "hidden": true,
+                        "hiddenBreadcrumb": false
+                    }
+                },
+                {
+                    "id": 1408,
+                    "parent_id": 1400,
+                    "name": "system:role:realDelete",
+                    "component": null,
+                    "path": "\/",
+                    "redirect": null,
+                    "meta": {
+                        "type": "B",
+                        "icon": null,
+                        "title": "角色真实删除",
+                        "hidden": true,
+                        "hiddenBreadcrumb": false
+                    }
+                },
+                {
+                    "id": 1409,
+                    "parent_id": 1400,
+                    "name": "system:role:import",
+                    "component": null,
+                    "path": "\/",
+                    "redirect": null,
+                    "meta": {
+                        "type": "B",
+                        "icon": null,
+                        "title": "角色导入",
+                        "hidden": true,
+                        "hiddenBreadcrumb": false
+                    }
+                },
+                {
+                    "id": 1410,
+                    "parent_id": 1400,
+                    "name": "system:role:export",
+                    "component": null,
+                    "path": "\/",
+                    "redirect": null,
+                    "meta": {
+                        "type": "B",
+                        "icon": null,
+                        "title": "角色导出",
+                        "hidden": true,
+                        "hiddenBreadcrumb": false
+                    }
+                },
+                {
+                    "id": 1411,
+                    "parent_id": 1400,
+                    "name": "system:role:changeStatus",
+                    "component": "",
+                    "path": "\/",
+                    "redirect": null,
+                    "meta": {
+                        "type": "B",
+                        "icon": "",
+                        "title": "角色状态改变",
+                        "hidden": true,
+                        "hiddenBreadcrumb": false
+                    }
+                },
+                {
+                    "id": 1412,
+                    "parent_id": 1400,
+                    "name": "system:role:menuPermission",
+                    "component": "",
+                    "path": "\/",
+                    "redirect": null,
+                    "meta": {
+                        "type": "B",
+                        "icon": "",
+                        "title": "更新菜单权限",
+                        "hidden": true,
+                        "hiddenBreadcrumb": false
+                    }
+                },
+                {
+                    "id": 1413,
+                    "parent_id": 1400,
+                    "name": "system:role:dataPermission",
+                    "component": "",
+                    "path": "\/",
+                    "redirect": null,
+                    "meta": {
+                        "type": "B",
+                        "icon": "",
+                        "title": "更新数据权限",
+                        "hidden": true,
+                        "hiddenBreadcrumb": false
+                    }
+                }
+            ]
+        },
+        {
+            "id": 1300,
+            "parent_id": 1000,
+            "name": "system:dept",
+            "component": "system\/dept\/index",
+            "path": "\/dept",
+            "redirect": null,
+            "meta": {
+                "type": "M",
+                "icon": "ma-icon-dept",
+                "title": "部门管理",
+                "hidden": false,
+                "hiddenBreadcrumb": false
+            },
+            "children": [
+                {
+                    "id": 1301,
+                    "parent_id": 1300,
+                    "name": "system:dept:index",
+                    "component": null,
+                    "path": "\/",
+                    "redirect": null,
+                    "meta": {
+                        "type": "B",
+                        "icon": null,
+                        "title": "部门列表",
+                        "hidden": true,
+                        "hiddenBreadcrumb": false
+                    }
+                },
+                {
+                    "id": 1302,
+                    "parent_id": 1300,
+                    "name": "system:dept:recycle",
+                    "component": null,
+                    "path": "\/",
+                    "redirect": null,
+                    "meta": {
+                        "type": "B",
+                        "icon": null,
+                        "title": "部门回收站",
+                        "hidden": true,
+                        "hiddenBreadcrumb": false
+                    }
+                },
+                {
+                    "id": 1303,
+                    "parent_id": 1300,
+                    "name": "system:dept:save",
+                    "component": null,
+                    "path": "\/",
+                    "redirect": null,
+                    "meta": {
+                        "type": "B",
+                        "icon": null,
+                        "title": "部门保存",
+                        "hidden": true,
+                        "hiddenBreadcrumb": false
+                    }
+                },
+                {
+                    "id": 1304,
+                    "parent_id": 1300,
+                    "name": "system:dept:update",
+                    "component": null,
+                    "path": "\/",
+                    "redirect": null,
+                    "meta": {
+                        "type": "B",
+                        "icon": null,
+                        "title": "部门更新",
+                        "hidden": true,
+                        "hiddenBreadcrumb": false
+                    }
+                },
+                {
+                    "id": 1305,
+                    "parent_id": 1300,
+                    "name": "system:dept:delete",
+                    "component": null,
+                    "path": "\/",
+                    "redirect": null,
+                    "meta": {
+                        "type": "B",
+                        "icon": null,
+                        "title": "部门删除",
+                        "hidden": true,
+                        "hiddenBreadcrumb": false
+                    }
+                },
+                {
+                    "id": 1306,
+                    "parent_id": 1300,
+                    "name": "system:dept:read",
+                    "component": null,
+                    "path": "\/",
+                    "redirect": null,
+                    "meta": {
+                        "type": "B",
+                        "icon": null,
+                        "title": "部门读取",
+                        "hidden": true,
+                        "hiddenBreadcrumb": false
+                    }
+                },
+                {
+                    "id": 1307,
+                    "parent_id": 1300,
+                    "name": "system:dept:recovery",
+                    "component": null,
+                    "path": "\/",
+                    "redirect": null,
+                    "meta": {
+                        "type": "B",
+                        "icon": null,
+                        "title": "部门恢复",
+                        "hidden": true,
+                        "hiddenBreadcrumb": false
+                    }
+                },
+                {
+                    "id": 1308,
+                    "parent_id": 1300,
+                    "name": "system:dept:realDelete",
+                    "component": null,
+                    "path": "\/",
+                    "redirect": null,
+                    "meta": {
+                        "type": "B",
+                        "icon": null,
+                        "title": "部门真实删除",
+                        "hidden": true,
+                        "hiddenBreadcrumb": false
+                    }
+                },
+                {
+                    "id": 1309,
+                    "parent_id": 1300,
+                    "name": "system:dept:import",
+                    "component": null,
+                    "path": "\/",
+                    "redirect": null,
+                    "meta": {
+                        "type": "B",
+                        "icon": null,
+                        "title": "部门导入",
+                        "hidden": true,
+                        "hiddenBreadcrumb": false
+                    }
+                },
+                {
+                    "id": 1310,
+                    "parent_id": 1300,
+                    "name": "system:dept:export",
+                    "component": null,
+                    "path": "\/",
+                    "redirect": null,
+                    "meta": {
+                        "type": "B",
+                        "icon": null,
+                        "title": "部门导出",
+                        "hidden": true,
+                        "hiddenBreadcrumb": false
+                    }
+                },
+                {
+                    "id": 1311,
+                    "parent_id": 1300,
+                    "name": "system:dept:changeStatus",
+                    "component": "",
+                    "path": "\/",
+                    "redirect": null,
+                    "meta": {
+                        "type": "B",
+                        "icon": "",
+                        "title": "部门状态改变",
+                        "hidden": true,
+                        "hiddenBreadcrumb": false
+                    }
+                }
+            ]
+        },
+        {
+            "id": 1200,
+            "parent_id": 1000,
+            "name": "system:menu",
+            "component": "system\/menu\/index",
+            "path": "\/menu",
+            "redirect": null,
+            "meta": {
+                "type": "M",
+                "icon": "icon-menu",
+                "title": "菜单管理",
+                "hidden": false,
+                "hiddenBreadcrumb": false
+            },
+            "children": [
+                {
+                    "id": 4972,
+                    "parent_id": 1200,
+                    "name": "system:menu:test",
+                    "component": null,
+                    "path": "\/",
+                    "redirect": null,
+                    "meta": {
+                        "type": "B",
+                        "icon": "IconArrowRise",
+                        "title": "测试",
+                        "hidden": false,
+                        "hiddenBreadcrumb": false
+                    }
+                },
+                {
+                    "id": 1201,
+                    "parent_id": 1200,
+                    "name": "system:menu:index",
+                    "component": null,
+                    "path": "\/",
+                    "redirect": null,
+                    "meta": {
+                        "type": "B",
+                        "icon": null,
+                        "title": "菜单列表",
+                        "hidden": true,
+                        "hiddenBreadcrumb": false
+                    }
+                },
+                {
+                    "id": 1202,
+                    "parent_id": 1200,
+                    "name": "system:menu:recycle",
+                    "component": null,
+                    "path": "\/",
+                    "redirect": null,
+                    "meta": {
+                        "type": "B",
+                        "icon": null,
+                        "title": "菜单回收站",
+                        "hidden": true,
+                        "hiddenBreadcrumb": false
+                    }
+                },
+                {
+                    "id": 1203,
+                    "parent_id": 1200,
+                    "name": "system:menu:save",
+                    "component": null,
+                    "path": "\/",
+                    "redirect": null,
+                    "meta": {
+                        "type": "B",
+                        "icon": null,
+                        "title": "菜单保存",
+                        "hidden": true,
+                        "hiddenBreadcrumb": false
+                    }
+                },
+                {
+                    "id": 1204,
+                    "parent_id": 1200,
+                    "name": "system:menu:update",
+                    "component": null,
+                    "path": "\/",
+                    "redirect": null,
+                    "meta": {
+                        "type": "B",
+                        "icon": null,
+                        "title": "菜单更新",
+                        "hidden": true,
+                        "hiddenBreadcrumb": false
+                    }
+                },
+                {
+                    "id": 1205,
+                    "parent_id": 1200,
+                    "name": "system:menu:delete",
+                    "component": null,
+                    "path": "\/",
+                    "redirect": null,
+                    "meta": {
+                        "type": "B",
+                        "icon": null,
+                        "title": "菜单删除",
+                        "hidden": true,
+                        "hiddenBreadcrumb": false
+                    }
+                },
+                {
+                    "id": 1206,
+                    "parent_id": 1200,
+                    "name": "system:menu:read",
+                    "component": null,
+                    "path": "\/",
+                    "redirect": null,
+                    "meta": {
+                        "type": "B",
+                        "icon": null,
+                        "title": "菜单读取",
+                        "hidden": true,
+                        "hiddenBreadcrumb": false
+                    }
+                },
+                {
+                    "id": 1207,
+                    "parent_id": 1200,
+                    "name": "system:menu:recovery",
+                    "component": null,
+                    "path": "\/",
+                    "redirect": null,
+                    "meta": {
+                        "type": "B",
+                        "icon": null,
+                        "title": "菜单恢复",
+                        "hidden": true,
+                        "hiddenBreadcrumb": false
+                    }
+                },
+                {
+                    "id": 1208,
+                    "parent_id": 1200,
+                    "name": "system:menu:realDelete",
+                    "component": null,
+                    "path": "\/",
+                    "redirect": null,
+                    "meta": {
+                        "type": "B",
+                        "icon": null,
+                        "title": "菜单真实删除",
+                        "hidden": true,
+                        "hiddenBreadcrumb": false
+                    }
+                },
+                {
+                    "id": 1209,
+                    "parent_id": 1200,
+                    "name": "system:menu:import",
+                    "component": null,
+                    "path": "\/",
+                    "redirect": null,
+                    "meta": {
+                        "type": "B",
+                        "icon": null,
+                        "title": "菜单导入",
+                        "hidden": true,
+                        "hiddenBreadcrumb": false
+                    }
+                },
+                {
+                    "id": 1210,
+                    "parent_id": 1200,
+                    "name": "system:menu:export",
+                    "component": null,
+                    "path": "\/",
+                    "redirect": null,
+                    "meta": {
+                        "type": "B",
+                        "icon": null,
+                        "title": "菜单导出",
+                        "hidden": true,
+                        "hiddenBreadcrumb": false
+                    }
+                }
+            ]
+        }
+    ]
+}]

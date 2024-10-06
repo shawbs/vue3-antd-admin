@@ -1,0 +1,33 @@
+
+
+@import './theme.less';
+
+// 自定义滚动条样式
+.scrollbar {
+    &::-webkit-scrollbar {
+        width: 20px; // 垂直滚动条的宽度
+        height: 20px; // 水平滚动条的高度
+    }
+
+    &::-webkit-scrollbar-track {
+        background: #f1f1f1; // 轨道背景
+        border-radius: 10px; // 圆角
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background: #ad6666; // 滑块背景
+        border-radius: 10px; // 圆角
+    }
+
+    &::-webkit-scrollbar-thumb:hover {
+        background: #ce3f3f; // 悬停时滑块颜色
+    }
+
+    // Firefox 自定义滚动条
+    scrollbar-width: thin; // 设置滚动条为细
+    scrollbar-color: #888 #f1f1f1; // 设置滑块和轨道颜色
+}
+
+div{
+    .scrollbar();
+}
