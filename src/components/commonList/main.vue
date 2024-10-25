@@ -1,234 +1,331 @@
 <template>
-    <div>
-        <div class="common-list-search">
-            <!-- {{ searchDataArr }} -->
-            <a-form
-                ref="searchRef"
-                layout="inline"
-            >
-                <a-form-item v-for="item in searchDataArr" :key="item.dataIndex" :name="item.dataIndex" :label="item.title">
-                    
-                    <template v-if="$slots[`search-${item.dataIndex}`]">
-                        <slot :name="`search-${item.dataIndex}`" :search-data="item"></slot>
-                    </template>
-                    <template v-else>
-                        <a-input-number 
-                            v-if="item.formType=='inputNumber'" 
-                            v-model:value="item.value" 
-                            :placeholder="item.placeholder" 
-                            style="width: 100%;"
-                            v-bind="item.bind">
-                            </a-input-number>
-                        <a-select 
-                            v-else-if="item.formType=='select'" 
-                            v-model:value="item.value" 
-                            :placeholder="item.placeholder" 
-                            style="width: 100%;"
-                            v-bind="item.bind">
-                            <option v-for="(ik,idx) in item.dict || []" :key="item.dataIndex + idx" :value="ik.value">{{ik.label}}</option>
-                            </a-select>
-                        <a-date-picker 
-                            v-else-if="item.formType=='datePicker'" 
-                            v-model:value="item.value" 
-                            :placeholder="item.placeholder" 
-                            style="width: 100%;"
-                            :value-format="`YYYY-MM-DD${item.bind.showTime ? ' HH:mm:ss' : ''}`"
-                            v-bind="item.bind">
-                            </a-date-picker>
+  <div>
+    <div class="common-list-search">
+      <!-- {{ searchDataArr }} -->
+      <a-form
+        ref="searchRef"
+        :model="searchForm"
+        :label-col="{ style: { width: options.searchLabelWidth } }"
+      >
+        <a-row :gutter="24">
+          <a-col
+            v-for="item in searchDataArr"
+            :key="item.dataIndex"
+            :span="Math.floor(24 / options.searchColNumber)"
+          >
+            <a-form-item :name="item.dataIndex" :label="item.title">
+              <template v-if="$slots[`search-${item.dataIndex}`]">
+                <slot
+                  :name="`search-${item.dataIndex}`"
+                  :form-source="formData"
+                  :data-index="item.dataIndex"
+                ></slot>
+              </template>
+              <template v-else>
+                <a-input-number
+                  v-if="item.formType == 'inputNumber'"
+                  v-model:value="searchForm[item.dataIndex]"
+                  :placeholder="item.placeholder"
+                  style="width: 100%"
+                  v-bind="item.bind"
+                ></a-input-number>
+                <a-select
+                  v-else-if="
+                    ['select', 'checkbox', 'radio', 'switch'].includes(
+                      item.formType as string
+                    )
+                  "
+                  v-model:value="searchForm[item.dataIndex]"
+                  :placeholder="item.placeholder"
+                  :allow-clear="item.allowClear"
+                  style="width: 100%"
+                  v-bind="item.bind"
+                >
+                  <a-select-option
+                    v-for="(ik, idx) in item.dict?.data || []"
+                    :key="item.dataIndex + idx"
+                    :value="ik.value"
+                  >
+                    {{ ik.label }}
+                  </a-select-option>
+                </a-select>
 
-                        <a-range-picker 
-                            v-else-if="item.formType=='rangePicker'" 
-                            v-model:value="item.value" 
-                            :placeholder="item.placeholder"
-                            :value-format="`YYYY-MM-DD${item.bind.showTime ? ' HH:mm:ss' : ''}`"
-                            style="width: 100%;"
-                            v-bind="item.bind">
-                            </a-range-picker>
+                <a-date-picker
+                  v-else-if="item.formType == 'datePicker'"
+                  v-model:value="searchForm[item.dataIndex]"
+                  style="width: 100%"
+                  :value-format="`YYYY-MM-DD${item.bind.showTime ? ' HH:mm:ss' : ''}`"
+                  v-bind="item.bind"
+                ></a-date-picker>
 
-                        <a-input 
-                            v-else 
-                            v-model:value="item.value" 
-                            :placeholder="item.placeholder" 
-                            v-bind="item.bind">
-                            </a-input>
-                    </template>
-                </a-form-item>
-                
-                <a-form-item v-if="searchDataArr.length>0">
-                    <a-space>
-                        <a-button
-                            type="primary"
-                            html-type="submit"
-                            @click="init"
-                        >
-                            搜索
-                        </a-button>
-                        <a-button
-                            type="default"
-                            @click="reset"
-                        >
-                            重置
-                        </a-button>
-                    </a-space>
-                </a-form-item>
-            </a-form>
-        </div>
-        <div class="common-list-header">
-            <slot name="table-before"/>
-        </div>
-        <div class="common-list-tool">
-            <div>
-                <!-- {{ options }} -->
-                <a-space>
-                    <a-button v-if="options.add?.show" type="primary" @click="openHandle(0)">
-                        <template #icon>
-                            <PlusOutlined />
-                        </template>
-                        新增</a-button>
-                    <a-button v-if="options.delete?.show" type="primary" danger>
-                        <template #icon>
-                        <DeleteOutlined />
-                        </template>
-                        删除</a-button>
-                    <a-button v-if="options.export?.show">
-                        <template #icon>
-                        <ExportOutlined />
-                        </template>
-                        导出</a-button>
-                </a-space>
+                <a-range-picker
+                  v-else-if="item.formType == 'rangePicker'"
+                  v-model:value="searchForm[item.dataIndex]"
+                  :value-format="`YYYY-MM-DD${item.bind.showTime ? ' HH:mm:ss' : ''}`"
+                  style="width: 100%"
+                  v-bind="item.bind"
+                ></a-range-picker>
+
+                <a-input
+                  v-else
+                  v-model:value="searchForm[item.dataIndex]"
+                  :placeholder="item.placeholder"
+                  v-bind="item.bind"
+                ></a-input>
+              </template>
+            </a-form-item>
+          </a-col>
+          <a-col
+            :span="
+              options.btnBoxInline
+                ? Math.floor(24 / options.searchColNumber)
+                : 24
+            "
+          >
+            <div :class="options.btnBoxInline ? '' : 'text-center'">
+              <a-space>
+                <a-button type="primary" html-type="submit" @click="init">
+                  {{ options.searchText }}
+                </a-button>
+                <a-button type="default" @click="reset">
+                  {{ options.resetText }}
+                </a-button>
+              </a-space>
             </div>
-            <div>
-                <a-space>
-                    <a-button>
-                        <template #icon>
-                            <ReloadOutlined />
-                        </template>
-                    </a-button>
-                </a-space>
-            </div>
-        </div>
-        <a-table
-            ref="tableRef"
-            :columns="headerColumns"
-            :row-key="options.pk"
-            :data-source="dataSource"
-            :pagination="pagination"
-            :loading="loading"
-            bordered
-            @change="handleTableChange"
-            >
-            <template #headerCell="{  }">
-                <template v-if="options.operationColumn" >
-                    {{options.operationColumnText}}
-                </template>
-            </template>
-            <template #bodyCell="{ column, record }">
-                <template v-if="!column.hide">
-                    <slot v-if="$slots[column.dataIndex]"  :name="column.dataIndex" :column="column" :record="record" />
-                    <span v-else>{{record[column.dataIndex]}}</span>
-                </template>
-                <template v-if="options.operationColumn" >
-                    <a-button v-if="options.edit?.show" type="text" @click="openHandle(1)" >编辑</a-button>
-                    
-                    <a-popconfirm
-                        title="Are you sure delete this task?"
-                        ok-text="确定"
-                        cancel-text="取消"
-                        @confirm="deleteHandle(record)"
-                    >
-                        <a-button v-if="options.delete?.show" type="text" danger >删除</a-button>
-                    </a-popconfirm>
-                    <slot name="operationColumn" :column="column" :record="record" />
-                </template>
-            </template>
-        </a-table>
-        <div>
-            <slot name="table-after"/>
-        </div>
-
-
-        <a-drawer
-            v-model:open="open"
-            :title="openType === 1 ? '编辑' : '新增'"
-            width="520"
-            :closable="false"
-            :footer-style="{ textAlign: 'center' }"
-            @close="onClose"
-        >
-            <CommonForm :columns="formColumns" @finish="submitHandle" />
-        </a-drawer>
+          </a-col>
+        </a-row>
+      </a-form>
     </div>
+    <div class="common-list-header">
+      <slot name="table-before" />
+    </div>
+    <div class="common-list-tool">
+      <div>
+        <a-space>
+          <a-button
+            v-if="options.add?.show"
+            type="primary"
+            @click="openHandle(0)"
+          >
+            <template #icon>
+              <PlusOutlined />
+            </template>
+            {{ options.addText }}
+          </a-button>
+          <a-popconfirm
+            :title="options.deleteSelectTip"
+            :ok-text="options.okText"
+            :cancel-text="options.cancelText"
+            @confirm="deleteHandle()"
+          >
+            <a-button v-if="options.delete?.show" type="primary" danger>
+              <template #icon>
+                <DeleteOutlined />
+              </template>
+              {{ options.deleteText }}
+            </a-button>
+          </a-popconfirm>
+
+          <a-popconfirm
+            :title="options.exportTip"
+            :ok-text="options.okText"
+            :cancel-text="options.cancelText"
+            @confirm="exportHandle()"
+          >
+            <a-button v-if="options.export?.show">
+              <template #icon>
+                <ExportOutlined />
+              </template>
+              {{ options.exportText }}
+            </a-button>
+          </a-popconfirm>
+
+          <slot name="table-tool-left" />
+        </a-space>
+      </div>
+      <div>
+        <a-space>
+          <slot name="table-tool-right" />
+          <a-button @click="init">
+            <template #icon>
+              <ReloadOutlined />
+            </template>
+          </a-button>
+        </a-space>
+      </div>
+    </div>
+    <!-- {{ headerColumns.map(item=>item.width) }} -->
+    <!-- {{ options.scroll }} -->
+    <a-table
+      ref="tableRef"
+      :columns="headerColumns"
+      :row-key="options.pk"
+      :data-source="dataSource"
+      :pagination="options.needPagination ? pagination : false"
+      :loading="loading"
+      bordered
+      :row-selection="rowSelection"
+      :scroll="options.scroll"
+      @change="handleTableChange"
+    >
+      <template #bodyCell="{ column, record }">
+        <slot
+          v-if="$slots[column.dataIndex]"
+          :name="column.dataIndex"
+          :column="column"
+          :record="record"
+        />
+        <div v-else>
+          <template v-if="column.formType === 'upload'">
+            <a-button @click="openLink(record[column.dataIndex])">
+              <template #icon>
+                <SearchOutlined />
+              </template>
+            </a-button>
+          </template>
+          <template v-else-if="column.dict?.data && column.dict?.transition">
+            <a-tag
+              v-for="item in column.dict?.data.filter(
+                (item: any) => item.value === record[column.dataIndex]
+              ) || []"
+              :key="item.value"
+              :color="
+                column.dict?.tagColors ? column.dict?.tagColors[item.value] : ''
+              "
+              :bordered="false"
+            >
+              {{ item.label }}
+            </a-tag>
+          </template>
+          <template v-else>
+            {{ record[column.dataIndex] }}
+          </template>
+        </div>
+
+        <template v-if="column.dataIndex === 'operation'">
+          <a-space class="operation" align="center">
+            <a-button
+              v-if="options.edit?.show"
+              type="primary"
+              @click="openHandle(1, record)"
+            >
+              {{ options.editText }}
+            </a-button>
+            <a-popconfirm
+              :title="options.deleteTip"
+              :ok-text="options.okText"
+              :cancel-text="options.cancelText"
+              @confirm="deleteHandle(record)"
+            >
+              <a-button v-if="options.delete?.show" type="primary" danger>
+                {{ options.deleteText }}
+              </a-button>
+            </a-popconfirm>
+            <slot
+              v-if="$slots['operationAfterExtend']"
+              name="operationAfterExtend"
+              :column="column"
+              :record="record"
+            />
+          </a-space>
+        </template>
+      </template>
+    </a-table>
+    <div>
+      <slot name="table-after" />
+    </div>
+
+    <a-drawer
+      v-model:open="open"
+      :title="openType === 1 ? options.editText : options.addText"
+      width="520"
+      :footer-style="{ textAlign: 'center' }"
+      @close="onClose"
+    >
+      <CommonForm
+        v-if="open"
+        ref="formRef"
+        :columns="formColumns"
+        :options="formOptions"
+        :model="formData"
+        @finish="submitHandle"
+      />
+    </a-drawer>
+  </div>
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, reactive, ref } from 'vue';
-import { ReloadOutlined,DeleteOutlined,PlusOutlined,ExportOutlined } from '@ant-design/icons-vue';
-import CommonForm from './form.vue';
-import type { inputFormType } from './state';
+import { computed, onMounted, reactive, ref } from "vue";
+import {
+  ReloadOutlined,
+  DeleteOutlined,
+  PlusOutlined,
+  ExportOutlined,
+  SearchOutlined,
+} from "@ant-design/icons-vue";
+import CommonForm from "./form.vue";
+import type { columnsType, optionsType, pageResponseType } from "./option";
+import { message } from "ant-design-vue";
 
-interface optionsType {
-    id: string,
-    pk: string,
-    pageSize?: number,
-    operationColumn?: boolean,
-    operationColumnWidth?: number,
-    operationColumnText?: string,
-    operationColumnAlign?: string,
-    api: (e:any) => Promise<any>,
-    beforeRequest?:  (e:any) => void,
-    afterRequest?:  (e:any) => any[],
-    add?: { show: boolean, api: (e:any) => Promise<any>,  },
-    edit?: { show: boolean, api: (e:any) => Promise<any>,  },
-    delete?: { show: boolean, api: (e:any) => Promise<any>,  },
-    export?: { show: boolean, api: (e:any) => Promise<any>,  },
-    searchLabelWidth: string,
-}
-interface columnsType {
-    dataIndex: string,
-    title: string,
-    search: boolean,
-    hide: boolean, //表格列表是否隐藏
-    add?: boolean, //表单新增是否显示
-    edit?: boolean, //表单编辑是否显示
-    formType: inputFormType,
-    extra?: string,
-    align?: 'left' | 'center' | 'right',
-    width?: number | string,
-    dict?: {label: string, value: string}[],
-    required?: boolean,
-    bind?: any, //表单控件绑定antd属性
-
-}
 interface propsType {
-    columns: columnsType[],
-    options: optionsType,
+  columns: columnsType[];
+  options: optionsType;
 }
 
 const props = withDefaults(defineProps<propsType>(), {
-    columns: () => []
+  columns: () => [],
 });
 
 const defaultOptions = {
-    pk: 'id',
-    pageSize: 10,
-    operationColumn: true,
-    operationColumnWidth: 120,
-    operationColumnText: '操作',
-    operationColumnAlign: 'center',
-    searchLabelWidth: '120px',
-    api: (e:any) => Promise.resolve({data: [], total: 0}),
+  pk: "id",
+  pageSize: 10,
+  operationColumn: false,
+  operationColumnWidth: 300,
+  operationColumnText: "操作",
+  operationColumnAlign: "center",
+  operationColumnFixed: "right",
+  labelWidth: "120px",
+  api: (e: any): Promise<pageResponseType | undefined> =>
+    Promise.resolve(undefined),
+  editText: "编辑",
+  addText: "新增",
+  deleteText: "删除",
+  deleteTip: "确定要删除此条记录吗？",
+  deleteSelectTip: "确定要删除选中记录吗？",
+  exportText: "导出",
+  exportTip: "确定要导出查询到的记录吗？",
+  submitText: "提交",
+  cancelText: "取消",
+  resetText: "重置",
+  searchText: "搜索",
+  okText: "确定",
+  placeholderPrefixInput: "请输入",
+  placeholderPrefixSelect: "请选择",
+  height: "500px",
+  searchLabelWidth: "100px", //搜索表单label宽度
+  searchLabelAlign: "right", //搜索表单label对齐方式
+  searchColNumber: 4, //搜索表单每行显示的列数
+  btnBoxInline: false,
+  needPagination: true,
+  pageListKey: "list",
+  pageTotalKey: "total",
+  dict: {
+    translation: true,
+    data: [],
+  },
 };
 
-const options = computed(():optionsType => {
-    return <optionsType>{
-        ...defaultOptions,
-        ...props.options
-    };
+const options = computed((): any => {
+  return <optionsType>{
+    ...defaultOptions,
+    ...props.options,
+  };
 });
 
 const page = ref(1);
 const pageSize = ref(options.value.pageSize || 10);
 const total = ref(0);
+const sorter = ref({});
 const dataSource = ref<any[]>([]);
 const loading = ref(true);
 
@@ -238,132 +335,245 @@ const pagination = computed(() => ({
   pageSize: pageSize.value,
 }));
 
+const formRef = ref();
+
+const open = ref(false);
+const openType = ref(1);
+const formData = reactive<any>({});
+const formColumns = ref<any[]>([]);
+
+const searchForm = reactive<any>({});
+
 // 把columns转成searchData
-const columnToSearchData = (columns:columnsType[]):(columnsType & {placeholder: string, value: string})[] => {
-    return columns.filter(item => item.search).map(item => {
-        const isInput = ['text','inputNumber','textarea','password'].includes(item.formType);
-        return {
-            ...item,
-            placeholder: (isInput ? '请输入' : '请选择') + item.title,
-            value: ''
-        };
+const columnToSearchData = (columns: columnsType[]): columnsType[] => {
+  return columns
+    .filter((item) => item.search)
+    .map((item) => {
+      const isInput = [
+        "text",
+        "inputNumber",
+        "textarea",
+        "password",
+        "email",
+      ].includes(item.formType || "text");
+      searchForm[item.dataIndex] = item.searchDefaultValue || undefined;
+      return {
+        ...item,
+        placeholder:
+          (isInput
+            ? options.value.placeholderPrefixInput
+            : options.value.placeholderPrefixSelect) + item.title,
+      };
     });
 };
 
 const headerColumns = computed(() => {
-    return props.columns.filter(item => !item.hide);
+  const arr = props.columns.filter((item) => !item.hide);
+  if (options.value.operationColumn) {
+    arr.push({
+      title: options.value.operationColumnText,
+      dataIndex: "operation",
+      width: options.value.operationColumnWidth,
+      align: options.value.operationColumnAlign,
+      fixed: options.value.operationColumnFixed,
+    } as columnsType);
+  }
+  return arr;
 });
 
 const searchDataArr = ref(columnToSearchData(props.columns));
 
-// 把column转成参数
-const getParams = () => {
-    const params:Record<string,any> = {};
-    searchDataArr.value.forEach(item => {
-        params[item.dataIndex] = item.value;
-    });
-    return params;
-};
-
 const init = async () => {
-    console.log(getParams());
-    if(!props.options.api) return;
-    const params = getParams();
-    props.options?.beforeRequest && await props.options.beforeRequest(params);
-    const res = await props.options.api(params).then(res => {
-        dataSource.value = res.data;
-        total.value = res.total;
-    }).finally(() =>{
-        loading.value = false;
+  if (!options.value.api) return;
+
+  const params = {
+    ...searchForm,
+    page: page.value,
+    pageSize: pageSize.value,
+    ...sorter.value,
+  };
+  if (!options.value.needPagination) {
+    delete params.page;
+    delete params.pageSize;
+  }
+
+  options.value?.beforeRequest && (await options.value.beforeRequest(params));
+  const res = await options.value
+    .api(params)
+    .then((res: pageResponseType | any) => {
+      if (!res) return;
+      dataSource.value = options.value.needPagination
+        ? res[options.value.pageListKey] || []
+        : res;
+      if (options.value.needPagination) {
+        total.value = res[options.value.pageTotalKey] || 0;
+      }
+    })
+    .finally(() => {
+      loading.value = false;
     });
-    if(props.options.afterRequest) {
-        dataSource.value = await props.options.afterRequest(res);
-    }
+  if (options.value.afterRequest) {
+    dataSource.value = await options.value.afterRequest(res);
+  }
 };
-const handleTableChange = (e:any) => {
-    console.log(e);
-    page.value = Number(e.current);
-    pageSize.value = Number(e.pageSize);
-    total.value = Number(e.total);
-    init();
+const handleTableChange = (
+  pag: { pageSize: number; current: number; total: number },
+  filters: any,
+  sorter: any
+) => {
+  page.value = Number(pag.current);
+  pageSize.value = Number(pag.pageSize);
+  sorter.value = sorter;
+  init();
 };
 
+const dictToText = (arr: any[], value: any) => {
+  const item = arr.find((item) => item.value === value);
+  return item?.label || value;
+};
+
+const openLink = (url: string, target: string = "_blank") => {
+  window.open(url, target);
+};
 
 const reset = () => {
-    page.value = 1;
-    total.value = 0;
-    searchDataArr.value.forEach(item => {
-        item.value = '';
-    });
-    init();
+  page.value = 1;
+  pageSize.value = 10;
+  total.value = 0;
+  searchDataArr.value.forEach((item) => {
+    searchForm[item.dataIndex] = undefined;
+  });
+  init();
 };
 
 onMounted(() => {
-    init();
+  init();
 });
-
-const deleteHandle = (record:any) => {
-    options.value.delete?.api(record).then(res => {
-        init();
-    });
+const ids = ref([]);
+const deleteHandle = (record?: any) => {
+  let _ids = record ? [record.id] : ids.value;
+  if (!_ids.length) {
+    message.error("请选择要删除的数据");
+    return;
+  }
+  options.value.delete?.api(_ids).then(() => {
+    init();
+  });
 };
 
-const open = ref(false);
-const formColumns = ref<any[]>([]);
-const openType = ref(0);
+const rowSelection = {
+  onChange: (selectedRowKeys: any, selectedRows: any) => {
+    ids.value = selectedRowKeys;
+    options.value.selectChange &&
+      options.value.selectChange(selectedRowKeys, selectedRows);
+  },
+  ...options.value.rowSelection,
+};
+
+const exportHandle = () => {
+  const params = {
+    ...searchForm,
+  };
+  options.value.export?.api(params);
+};
+
+const formOptions = computed(() => {
+  return {
+    submitText: options.value.submitText,
+    resetText: options.value.resetText,
+    labelWidth: options.value.labelWidth,
+  };
+});
 
 const getAddColumns = () => {
-    return props.columns.filter(item => item.add);
+  return props.columns.map((item) => ({
+    ...item,
+    hide: !item.addDisplay,
+    disabled: item.addDisabled,
+    readonly: item.addReadonly,
+  }));
 };
 
 const getEditColumns = () => {
-    return props.columns.filter(item => item.edit);
+  return props.columns.map((item) => ({
+    ...item,
+    hide: !item.editDisplay,
+    disabled: item.editDisabled,
+    readonly: item.editReadonly,
+  }));
 };
 
-const openHandle = (type:number) => {
-    open.value = true;
-    openType.value = type;
-    formColumns.value = [getAddColumns,getEditColumns][type]();
+/**
+ *
+ * @param type 0:新增 1:编辑
+ * @param record
+ */
+const openHandle = (type: number, record?: any) => {
+  // debugger;
+  const columns = (formColumns.value = [getAddColumns, getEditColumns][type]());
+  if (type === 1) {
+    Object.assign(formData, record);
+  } else {
+    columns.forEach((item) => {
+      formData[item.dataIndex] = undefined;
+    });
+  }
+  openType.value = type;
+  open.value = true;
 };
 
-const submitHandle = (formData:any) => {
-    if(openType.value === 0) {
-        options.value.add?.api(formData).then(res => {
-            onClose();
-            init();
-        });
-    } 
-    if(openType.value === 1) {
-        options.value.edit?.api(formData).then(res => {
-            onClose();
-            init();
-        });
-    }
+const submitHandle = (formData: any) => {
+  if (!formRef.value) return;
+  if (openType.value === 0) {
+    formRef.value.submitLoading = true;
+    options.value.add
+      ?.api(formData)
+      .then(() => {
+        message.success("新增成功");
+        setTimeout(onClose, 500);
+        init();
+      })
+      .finally(() => {
+        formRef.value.submitLoading = false;
+      });
+  }
+  if (openType.value === 1) {
+    formRef.value.submitLoading = true;
+    options.value.edit
+      ?.api(formData.id, formData)
+      .then(() => {
+        message.success("编辑成功");
+        setTimeout(onClose, 500);
+        init();
+      })
+      .finally(() => {
+        formRef.value.submitLoading = false;
+      });
+  }
 };
 const onClose = () => {
-    open.value = false;
+  open.value = false;
 };
 
 const searchRef = ref(null);
 const tableRef = ref(null);
 
 defineExpose({
-    searchRef,
-    tableRef,
-    getParams
+  searchRef,
+  tableRef,
+  searchForm,
 });
-
 </script>
 
 <style scoped>
-.common-list-header{
-    margin-bottom: 10px;
+.common-list-header {
+  margin-bottom: 10px;
 }
-.common-list-tool{
-    margin-bottom: 10px;
+.common-list-tool {
+  margin-bottom: 10px;
 }
-.common-list-tool{
-    display: flex;
-    justify-content: space-between;
+.common-list-tool {
+  display: flex;
+  justify-content: space-between;
 }
 </style>

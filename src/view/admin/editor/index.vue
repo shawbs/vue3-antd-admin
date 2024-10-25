@@ -1,12 +1,11 @@
 <template>
-    <div style="height: 120vh;">
+  <div class="p-2" style="height: 120vh">
+    <a-card>
       editor page
-      <CustomEditor />
-    </div>
-  </template>
-  
-  <script lang="ts" setup>
-  import CustomEditor from '@/components/CustomEditor/index.vue'
-  </script>
-  <style lang="less" scoped>
-  </style>
+      <CommonEditor />
+    </a-card>
+  </div>
+</template>
+
+<script lang="ts" setup></script>
+<style lang="less" scoped></style>

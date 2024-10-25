@@ -1,28 +1,67 @@
-import request from '@/composables/useRequest'
+import useRequest from "@/hooks/useRequest";
 
-/**
-   * 用户登录
-   * @param {object} params
-   * @returns
-   */
-export const login = (params = {}) => {
-    return request.post('system/login', params)
-}
+export const login = (data = {}) => {
+  return useRequest<LoginVo>({
+    url: "/auth/login",
+    method: "post",
+    data,
+  });
+};
 
-/**
- * 用户退出
- * @param {object} params
- * @returns
- */
-export const logout = (params = {}) => {
-    return request.post('system/logout', params)
-}
+export const logout = (data = {}) => {
+  return useRequest<any>({
+    url: "/auth/logout",
+    method: "delete",
+    data,
+  });
+};
 
-/**
- * 获取登录用户信息
- * @param {object} params
- * @returns
- */
 export const getUserInfo = (params = {}) => {
-    return request.get('system/getInfo', params)
-}
+  return useRequest<UserInfo>({
+    url: "/users/me",
+    method: "get",
+    params,
+  });
+};
+
+export const userPage = (params = {}) => {
+  return useRequest<UserInfo[]>({
+    url: "/users/page",
+    method: "get",
+    params,
+  });
+};
+
+export const userAdd = (data = {}) => {
+  return useRequest<UserInfo[]>({
+    url: "/users",
+    method: "post",
+    data,
+  });
+};
+
+export const userUpdate = (id: string, data = {}) => {
+  return useRequest<UserInfo[]>({
+    url: `/users/${id}`,
+    method: "put",
+    data,
+  });
+};
+
+export const userDeletes = (ids: string[]) => {
+  return useRequest<UserInfo[]>({
+    url: `/users/${ids.join(",")}`,
+    method: "delete",
+  });
+};
+
+export const userExport = (params = {}) => {
+  return useRequest<any>({
+    url: "users/_export",
+    method: "get",
+    params,
+    config: {
+      responseType: "blob",
+    },
+  });
+};

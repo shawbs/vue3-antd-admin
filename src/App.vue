@@ -1,16 +1,17 @@
 <script setup lang="ts">
-import { useAppStore } from '@/store/app.ts'
-import dayjs from 'dayjs';
-import { getLocale } from '@/i18n/lib'
-  
-import { computed, watch } from 'vue';
-const { setting } = useAppStore()
+import { useAppStore } from "@/store/app.ts";
+import dayjs from "dayjs";
+import { getLocale } from "@/i18n/lib";
 
-watch(() => setting.locale, (val) => {
-  dayjs.locale(getLocale(setting.locale).dayjs);
-  // dayjs.locale('zh-cn')
-  // dayjs.locale('en')
-})
+import { watch } from "vue";
+const { setting } = useAppStore();
+
+watch(
+  () => setting.locale,
+  () => {
+    dayjs.locale(getLocale(setting.locale).dayjs);
+  }
+);
 </script>
 
 <template>
@@ -24,7 +25,6 @@ watch(() => setting.locale, (val) => {
   >
     <router-view></router-view>
   </a-config-provider>
-  
 </template>
 
 <style scoped>

@@ -1,3 +1,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+img,
+svg {
+  vertical-align: baseline;
+  display: inline-block;
+}

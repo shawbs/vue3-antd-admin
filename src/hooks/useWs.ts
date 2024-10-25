@@ -1,4 +1,3 @@
-
 /**
  * websocket处理封装
  * @author X.Mo <root@imoi.cn>
@@ -9,7 +8,7 @@ class Wsocket {
    * websocket 连接句柄
    * @var Websocket
    */
-  ws:any;
+  ws: any;
 
   /**
    * 服务器地址
@@ -44,7 +43,7 @@ class Wsocket {
    * ws事件
    * @var Array
    */
-  onEvent:any[] = [];
+  onEvent: any[] = [];
 
   /**
    * 原生 websocket 事件
@@ -60,7 +59,7 @@ class Wsocket {
    * @param {string} url
    * @param {object} events
    */
-  constructor(url:string, events:any) {
+  constructor(url: string, events: any) {
     this.serverUrl = url;
     this.events = Object.assign(this.events, events);
   }
@@ -68,7 +67,7 @@ class Wsocket {
   /**
    * 绑定事件
    */
-  on(ev:string, callback: Function) {
+  on(ev: string, callback: Function) {
     this.onEvent[ev] = callback;
   }
 
@@ -106,8 +105,9 @@ class Wsocket {
    *
    * @param {Object} evt Websocket 消息
    */
-  onOpen(evt:string) {
+  onOpen(evt: string) {
     this.events.onOpen(evt);
+
     // this.sendHeartbeat();
   }
 
@@ -116,7 +116,7 @@ class Wsocket {
    *
    * @param {Object} evt Websocket 消息
    */
-  onClose(evt:any) {
+  onClose(evt: any) {
     clearInterval(this.heartbeat.timer);
     if (evt.code == 1006) {
       this.reconnect();
@@ -130,7 +130,7 @@ class Wsocket {
    *
    * @param {Object} evt Websocket 消息
    */
-  onError(evt:string) {
+  onError(evt: string) {
     this.events.onError(evt);
   }
 
@@ -139,7 +139,7 @@ class Wsocket {
    *
    * @param {Object} evt Websocket 消息
    */
-  onMessage(evt:string) {
+  onMessage(evt: string) {
     let result = this.onParseData(evt);
     if (this.onEvent.hasOwnProperty(result.event)) {
       this.onEvent[result.event](result.message, result.data);
@@ -187,7 +187,7 @@ class Wsocket {
    *
    * @param {Object} data
    */
-  send(data:any) {
+  send(data: any) {
     this.ws && this.ws.send(JSON.stringify(data));
   }
 
@@ -195,8 +195,10 @@ class Wsocket {
    * 关闭连接
    */
   close() {
-    this.ws.close();
-    this.ws = null;
+    if (this.ws) {
+      this.ws.close();
+      this.ws = null;
+    }
   }
 }
 
